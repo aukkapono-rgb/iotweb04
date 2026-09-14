@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Portfolio</title>
+    <!-- นำเข้าฟอนต์ Antonio สำหรับหัวข้อหนายืดสูง และฟอนต์ Sarabun สำหรับเนื้อหาภาษาไทย -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Antonio:wght@700&family=Sarabun:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- [แก้ไขจุดที่ 1] เปลี่ยนจากลิงก์สั้นที่พัง ให้เป็นลิงก์ Font Awesome CDN ที่ถูกต้องสมบูรณ์เพื่อให้ไอคอนติด -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+
+    <style>
+      /* ==========================================================================
+   RESET & GLOBAL STYLES (ตั้งค่าเริ่มต้นและสไตล์ตัวอักษร)
+   ========================================================================== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: #0e3cd3; /* สีพื้นหลังกล่องภายนอกสุดรอบตัว Container */
+        font-family: "Sarabun", sans-serif;
+        color: #ffffff;
+        overflow-x: hidden;
+      }
+
+      /* หัวข้อภาษาอังกฤษสไตล์ยืดสูง ตัวพิมพ์ใหญ่ทั้งหมดตรงตามรูป */
+      h1,
+      h2,
+      h3 {
+        font-family: "Antonio", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+        transition: color 0.3s ease;
+      }
+
+      /* [เพิ่มชิ้นส่วน] เส้นคั่นแบ่งเซกชันบางๆ ระหว่างส่วนเนื้อหาตามดีไซน์ภาพต้นฉบับ */
+      hr {
+        border: none;
+        border-top: 1px solid #11225e;
+        width: 100%;
+        margin: 20px 0;
+      }
+
+      /* ==========================================================================
+   1. MAIN CONTAINER (กล่องใหญ่ใบเดียวคลุมเนื้อหาเว็บทั้งหมด)
+   ========================================================================== */
+      .main-container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        background-color: #0e3cd3; /* สีน้ำเงินเข้มข้นภายในหน้าเพจหลัก */
+        padding: 60px 80px;
+        display: flex;
+        flex-direction: column;
+        gap: 120px; /* ระยะเว้นช่องไฟระหว่างสัดส่วนก้อนเนื้อหา */
+      }
+
+      /* ==========================================================================
+   NAVIGATION BAR (แถบเมนูด้านบนขึงกว้างแต่เนื้อหาไม่หลุดระนาบกระดูกงู)
+   ========================================================================== */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0px;
+        padding: 25px 40px;  /* ระยะเว้นช่องไฟด้านล่างแถบเมนู */
+        background-color: rgba(3, 14, 92, 0.946);
+        /* เส้นคั่นแบ่งระหว่างส่วนเนื้อหากับเครดิต */
+      }
+
+      .navbar .logo {
+        font-size: 1.1rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+
+      .navbar .nav-links {
+        display: flex;
+        gap: 30px;
+         /* ขนาดอัการ work about contact */
+        font-size: 1.1rem;
+        color: #ffffff;
+      }
+
+      .navbar .nav-links a:hover {
+        color: #ffffff;
+      }
+
+      /* ==========================================================================
+   REUSABLE COMPONENTS (กลุ่มปุ่มและไอคอนที่เรืองแสงมีเงาเหมือนในรูป) คอนเเทรคมี
+   ========================================================================== */
+      .btn-group {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-top: 30px;
+      }
+
+      /* ปุ่มแบบมีจุดวงกลมด้านใน */
+      .btn-action {
+        background-color: #e8eff3; /* สีฟ้าสว่างพาสเทล */
+        color: #031101;
+        padding: 12px 28px;
+        border-radius: 30px; /* ทำทรงแคปซูล */
+        font-weight: 700;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+        text-transform: uppercase;
+        display: inline-flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .btn-action::after {
+        content: "";
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background-color: #cd0606e9;
+        border-radius: 50%;
+      }
+
+      /* กล่องวงกลมที่มีเงาสะท้อนแสงเรือง ๆ ล้อมรอบไอคอน สไตล์ในภาพ รูปวงกลมมีไอคอนตรงกลาง */
+      .social-circle {
+        width: 44px;
+        height: 44px;
+        background-color: #0c0145; /* พื้นหลังสีน้ำเงินเข้มมืด ไอคอน ปุ่ม โซเชียล */
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        font-size: 1.7rem;
+        transition: all 0.3s ease;
+        /* การตั้งค่าเงาฟุ้งสะท้อนแสงรอบปุ่มตามตัวอย่างรูปใบที่ 2 */
+        box-shadow:
+          0 4px 10px rgba(255, 255, 255, 0.08),
+          0 0 5px rgba(255, 255, 255, 0.05);
+      }
+      /* เม้าชี้ที่ปุ่ม social แล้วเปลียนสี */
+      .social-circle:hover {
+        background-color: #73eb02; 
+        color: #0835c7;
+        box-shadow: 0 0 15px rgba(7, 235, 7, 0.775);
+        transform: translateY(-2px);
+      }
+
+      /* โครงสร้างหลักแบบ 2 คอลัมน์ (ซ้าย-ขวา) สำหรับจัดวางตำแหน่งให้เป๊ะตามภาพ */
+      .section-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.3fr;
+        gap: 60px;
+        align-items: flex-start;
+      }
+
+      .section-title {
+        font-size: 3.5rem;
+        line-height: 1.1;
+        color: #ffffff;
+      }
+
+      /* ==========================================================================
+   SECTION 1: HERO (ส่วนแบนเนอร์ด้านบนสุด ตัวอักษรยืดสูงและรูปโปรไฟล์ผู้ชาย)
+   ========================================================================== */
+      .hero-section {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 50px;
+        align-items: center;
+      }
+
+      .hero-left .hero-title {
+        font-size: 4.8rem;
+        line-height: 1.05;
+        margin-bottom: 25px;
+      }
+        /* โตัวอักษร รายละเอียดข้างๆยืดสูงและรูปโปรไฟล์ผู้ชาย */
+      .hero-left .hero-desc {
+        color: rgba(251, 252, 250, 0.99);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        max-width: 450px;
+      }
+
+      .hero-right .hero-img-box {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 24px; /* มุมโค้งมนตามภาพ */
+        overflow: hidden;
+        background-color: #eef3ee;
+      }
+
+      .hero-right .hero-img-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* ==========================================================================
+   SECTION 2: ABOUT ME (ส่วนประวัติพร้อมรูปแนวนอนด้านล่าง)
+   ========================================================================== */
+      .about-right {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+      }
+
+      .about-right .main-intro {
+        font-size: 1.2rem;
+        line-height: 1.5;
+        font-weight: 400;
+        color: #ffffff;
+      }
+        /* โตัวอักษร รายละเอียดด้านล่างรูปโปรไฟล์ผู้ชาย */
+      .about-right .sub-intro {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        color: #ffffff;
+      }
+
+      /* [แก้ไขให้สมบูรณ์] จัดให้รูปแนวนอนขนาดใหญ่ขอบมนโค้งตรงกับภาพใบที่ 3 */
+      .about-full-width-img {
+        grid-column: 1 / -1; /* สั่งให้ขยายเต็มความกว้างทั้งฝั่งซ้ายและขวา */
+        width: 100%;
+        margin-top: 30px;
+        border-radius: 24px;
+        overflow: hidden;
+      }
+
+      .about-full-width-img img {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: cover;
+        border-radius: 24px; /* การันตีขอบโค้งมนรอบด้าน */
+      }
+
+      /* ==========================================================================
+   SECTION 3: MY CAPABILITIES (กล่องปุ่มแคปซูลขอบมน 8 กล่อง)
+   ========================================================================== */
+      .capabilities-right .cap-desc {
+        color: #ffffff;
+        font-size: 0.95rem;
+        margin-bottom: 35px;
+        line-height: 1.6;
+      }
+
+      /* จัดวางกล่องย่อยเป็น 2 แถว แถวละ 4 กล่อง */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+      }
+
+      .skill-badge {
+        border: 1px solid #fbfbfb; /* เส้นขอบบาง ๆ สีฟ้าอมน้ำเงิน */
+        border-radius: 30px; /* ปุ่มแคปซูลขอบมนสไตล์ในรูปภาพใบที่ 3 */
+        padding: 14px 10px;
+        text-align: center;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #ffffff;
+        background-color: transparent;
+        letter-spacing: 0.5px;
+      }
+
+      /* ==========================================================================
+   SECTION 4: MY EXPERIENCE (ประสบการณ์การทำงาน)
+   ========================================================================== */
+      .experience-right {
+        display: flex;
+        flex-direction: column;
+        gap: 45px;
+      }
+
+      .exp-item .exp-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 15px;
+      }
+
+      .exp-item .exp-title {
+        font-size: 1.4rem;
+        font-weight: 400;
+        color: #ffffff;
+      }
+
+      .exp-item .exp-date {
+        font-size: 0.9rem;
+        color: #ffffff;
+      }
+      /* ตัวอักษร รายละเอียด ประวัติการทำงาน */
+      .exp-item .exp-desc {
+        color: #ffffff;
+        font-size: 0.95rem;
+        line-height: 1.7;
+      }
+
+      /* ==========================================================================
+   SECTION 5: LET'S CONNECT & CONTACT FORM (ฟอร์มกรอกสีทึบขอบเหลี่ยม)
+   ========================================================================== */
+      .connect-left .connect-text {
+        color: #f3f4f7;
+         /* ขนาดอักษร aukkapon.o@gmail.com */
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 10px;
+      }
+
+      .connect-left .connect-text a {
+        color: #ffffff;
+        border-bottom: 1px solid #ffffff;
+      }
+
+      /* ไอคอนโซเชียลมีเดีย 4 ชิ้นแถวล่างแบบไม่มีวงกลม */
+      .social-row {
+        display: flex;
+        gap: 25px;
+        margin-top: 35px;
+      }
+
+      .social-row a {
+         /* ขนาดอักษร 4 social icons */
+        font-size: 2rem;
+        color: #ffffff;
+      }
+
+      .social-row a:hover {
+        color: #3fed05;
+      }
+
+      /* ตกแต่งฟอร์มกรอกข้อความฝั่งขวา */
+      .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .form-group label {
+         /* ขนาดอักษร name email subject */
+        font-size: 0.95rem;
+        color: #e3e5eb;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        background-color: #011972; /* สีน้ำเงินสว่างน้อยกว่า/เข้มกว่าพื้นหลังเพจหลักตามรูปใบที่ 1 */
+        border: none;
+        border-radius: 4px; /* ขอบเหลี่ยมมุมตัด */
+        padding: 14px;
+        color: #ffffff;
+        font-family: "Sarabun", sans-serif;
+        font-size: 0.95rem;
+        width: 100%;
+      }
+
+      .form-group textarea {
+        resize: none;
+        height: 140px;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: 1px solid #edeef2;
+      }
+
+      /* ปุ่ม SUBMIT แคปซูลกึ่งกลางด้านล่างสุดของฟอร์ม */
+      .btn-submit {
+        background-color: #ededee;
+        color: #083905;
+        padding: 14px 45px;
+        border-radius: 30px;
+        font-weight: 700;
+        font-size: 1rem;
+        border: none;
+        cursor: pointer;
+        align-self: center; /* ดันให้อยู่กึ่งกลางฟอร์มตามรูปภาพใบที่ 1 */
+        margin-top: 15px;
+        text-transform: uppercase;
+      }
+
+      /* ==========================================================================
+   FOOTER (ส่วนเครดิตตรงกลางท้ายเพจ)
+   ========================================================================== */
+      .footer {
+        text-align: center;
+        padding-top: 40px;
+        border-top: 1px solid #e6e8f2; /* เส้นคั่นแบ่งระหว่างส่วนเนื้อหากับเครดิต */ 
+         /* ขนาดอักษร เครดิต 2025*/
+        font-size: 0.9rem;
+        color: #f4f4f6;
+      }
+
+      /* ==========================================================================
+   RESPONSIVE DESIGN (สำหรับเปิดบนโทรศัพท์มือถือ)
+   ========================================================================== */
+      @media (max-width: 900px) {
+        .main-container {
+          padding: 40px 24px;
+          gap: 80px;
+        }
+        .section-grid,
+        .hero-section {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+        .section-title {
+          font-size: 2.8rem;
+        }
+        .hero-left .hero-title {
+          font-size: 3.4rem;
+        }
+        .skills-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .exp-item .exp-header {
+          flex-direction: column;
+          gap: 8px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>
+<!-- NAVIGATION BAR (มุมบนซ้ายชื่อ - มุมบนขวาเมนูลิงก์) -->
+      <nav class="navbar">
+        <div class="logo">Aukkapon Odjai</div>
+        <div class="nav-links">
+          <a href="#work">Work</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+
+    </div>
+    <!-- 1. MAIN CONTAINER (กล่องใหญ่กล่องเดียวคลุมองค์ประกอบทั้งหมดของหน้าเว็บ) -->
+    <div class="main-container">
+      <!-- SECTION 1: HERO (Hi, I AM Aukkapon O.) -->
+      <section class="hero-section">
+        <div class="hero-left">
+          <h1 class="hero-title">HI, I AM<br />Aukkapon O.</h1>
+          <p class="hero-desc">
+            นักพัฒนาเว็บไซต์ฝั่งฟรอนต์เอนด์จากประเทศไทย
+            ที่มีความหลงใหลในการสร้างเว็บไซต์ที่เข้าถึงได้และเป็นมิตรกับผู้ใช้
+          </p>
+          <div class="btn-group">
+            <button class="btn-action">CONTACT ME</button>
+            <a href="#" class="social-circle"><i class="bi bi-linkedin"></i></a>
+            <a href="#" class="social-circle"><i class="bi bi-github"></i></a>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-img-box">
+            <!-- รูปภาพโปรไฟล์ผู้ชายใส่เสื้อฮู้ดครอบหัวตามภาพต้นฉบับ -->
+            <img src="./images/person5.jpg" alt="Aukkapon O." />
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: ABOUT ME -->
+      <section class="section-grid" id="about">
+        <h2 class="section-title">ABOUT ME</h2>
+        <div class="about-right">
+          <p class="main-intro">
+            ผมเป็นนักพัฒนาเว็บไซต์ฝั่งฟรอนต์เอนด์ที่ทำงานอยู่ในกรุงเทพฯ
+            กำลังมองหาโอกาสที่น่าตื่นเต้นในการทำงานมีพื้นฐานการศึกษาด้านวิศวกรรมซอฟต์แวร์
+          </p>
+          <p class="sub-intro">
+            ชอบให้ความสำคัญกับการเข้าถึง (accessibility) เมื่อพัฒนาเว็บไซต์
+            มีความกระตือรือร้นและอยากรู้ อยากเห็นเกี่ยวกับการแก้ไขปัญหาต่างๆ
+            ปัจจุบันกำลังศึกษาเรียนรู้เกี่ยวกับ React.js
+            และการออกแบบเว็บไซต์เล็กน้อยเมื่อไม่ได้เขียนโปรแกรม
+            ดิฉัน/ผมชอบเล่นฟุตบอล ถ่ายภาพ และเล่นเกม FIFA, Diablo
+            กำลังเรียนรู้เพิ่มเติมเพื่อพัฒนาตนเองอยู่เสมอ
+          </p>
+          <div class="btn-group">
+            <button class="btn-action">DOWNLOAD RESUME</button>
+            <a href="#" class="social-circle"><i class="bi bi-linkedin"></i></a>
+            <a href="#" class="social-circle"><i class="bi bi-github"></i></a>
+          </div>
+        </div>
+        <!-- ภาพถ่ายแนวนอนขนาดใหญ่ของคนนั่งทำงานหน้าคอมพิวเตอร์แบบขอบมน -->
+        <div class="about-full-width-img">
+          <img src="./images/person6.jpg" alt="Aukkapon O." />
+        </div>
+      </section>
+
+      <!-- SECTION 3: MY CAPABILITIES -->
+      <section class="section-grid">
+        <h2 class="section-title">MY CAPABILITIES<br /></h2>
+        <div class="capabilities-right">
+          <p class="cap-desc">
+            ผมมองหาโอกาสในการเพิ่มพูนทักษะใหม่ๆ อยู่เสมอ ทั้งการพัฒนาฟรอนต์เอนด์
+            แบ็กเอนด์ การออกแบบ UX/UI ฐานข้อมูล
+          </p>
+          <!-- กล่องย่อยทักษะ (Skill Badges) 8 กล่อง เรียงเป็น 2 แถว แถวละ 4 กล่อง -->
+          <div class="skills-grid">
+            <div class="skill-badge">HTML</div>
+            <div class="skill-badge">CSS</div>
+            <div class="skill-badge">JAVASCRIPT</div>
+            <div class="skill-badge">FLUTTER</div>
+            <div class="skill-badge">DART</div>
+            <div class="skill-badge">IoT</div>
+            <div class="skill-badge">REACT</div>
+            <div class="skill-badge">DATABASE</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: MY EXPERIENCE -->
+      <section class="section-grid" id="work">
+        <h2 class="section-title">MY EXPERIENCE <br /></h2>
+        <div class="experience-right">
+          <!-- ตำแหน่งที่ 1 -->
+          <div class="exp-item">
+            <div class="exp-header">
+              <h3 class="exp-title">Freelance Developer</h3>
+              <span class="exp-date">Nov 2023 – Present</span>
+            </div>
+            <p class="exp-desc">
+              พัฒนาและปรับปรุงส่วนติดต่อผู้ใช้สำหรับเว็บแอปพลิเคชันโดยใช้
+              React.js ที่ทำงานร่วมกันกับออกแบบ UX/UI
+              เพื่อสร้างประสบการณ์ผู้ใช้ที่น่าประทับใจปรับปรุงความเร็วในการโหลดเว็บโค้ดด้วยเทคนิคการเพิ่มประสิทธิภาพต่างๆ
+              ร่วมพัฒนาและดูแลไลบรารีคอมโพเนนต์ภายในองค์กร
+            </p>
+          </div>
+          <!-- ตำแหน่งที่ 2 -->
+          <div class="exp-item">
+            <div class="exp-header">
+              <h3 class="exp-title">Front-End Intern</h3>
+              <span class="exp-date">Sep 2023 – Nov 2023</span>
+            </div>
+            <p class="exp-desc">
+              พัฒนาเว็บไซต์ลูกค้าโดยใช้ HTML, CSS และ JavaScript
+              ช่วยปรับปรุงการเข้าถึง (Accessibility)
+              ของเว็บไซต์ให้สอดคล้องกับมาตรฐาน WCAG
+              ทำงานร่วมกับทีมแบ็กเอนด์เพื่อเชื่อมต่อ API
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 5: LET'S CONNECT & Form -->
+      <section class="section-grid" id="contact">
+        <div class="connect-left">
+          <h2 class="section-title">LET'S CONNECT</h2>
+          <p class="connect-text">
+            Say hello at
+            <a href="mailto:Aukkapon.o@gmail.com">Aukkapon.o@gmail.com</a>
+          </p>
+          <p class="connect-text">
+            For more info, here's my <a href="#" class="resume-link">resume</a>
+          </p>
+          <!-- ไอคอนโซเชียลมีเดีย 4 ไอคอนแถวล่าง -->
+          <div class="social-row">
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+            <a href="#"><i class="bi bi-github"></i></a>
+            <a href="#"><i class="bi bi-twitter"></i></a>
+            <a href="#"><i class="bi bi-instagram"></i></a>
+          </div>
+        </div>
+        <div class="connect-right">
+          <!-- ฟอร์มติดต่อฝั่งขวา ช่องกรอกเป็นสีน้ำเงินเข้มขอบเหลี่ยมมุมตัด -->
+          <form class="contact-form" action="#" method="POST">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <input type="text" id="subject" name="subject" required />
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" required></textarea>
+            </div>
+            <!-- ปุ่ม SUBMIT ทรงแคปซูลสีฟ้าอ่อนอยู่ท้ายฟอร์ม -->
+            <button type="submit" class="btn-submit">SUBMIT</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- FOOTER (ข้อความตรงกลางท้ายสุด) -->
+      <footer class="footer">
+        <p>© 2025 Created by SAU-Dev-Team</p>
+      </footer>
+    </div>
+    <!-- สิ้นสุดแท็กปิดของ main-container -->
+  </body>
+</html>
