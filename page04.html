@@ -1,53 +1,823 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="shortcut icon" href="./images/education3.png" type="images/png" />
-    <title>page04</title>
-</head>
+
+    <title>Page04</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@300..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ==========================================================================
+       1. GLOBAL STYLES & VARIABLES
+       ========================================================================== */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #ffffff;
+        color: #333333;
+        overflow-x: hidden;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 5px 5px;
+        gap: 120px;
+      }
+      .section-title {
+        font-family: "Sansita Swashed", cursive;
+        text-align: center;
+        font-size: 42px;
+        margin-bottom: 40px;
+        color: #1a1a1a;
+      }
+      .btn-primary {
+        background-color: #b81e03e0;
+        color: #ffffff;
+        padding: 12px 28px;
+        border: none;
+        border-radius: 4px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-block;
+        transition: background 0.3s;
+      }
+      .btn-primary:hover {
+        background-color: #b81e03e0;
+      }
+
+      /* บอลลูนตะกร้าสินค้าลอยตัวขวาล่าง */
+      .cart-status {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #b81e03e0;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 50px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        z-index: 999;
+        font-weight: bold;
+      }
+
+      /* ==========================================================================
+       2. HERO BANNER SECTION (ส่วนหัวบนสุด)
+       ========================================================================== */
+
+      .hero-section {
+        width: 100%;
+        min-height: 750px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start; /* บังคับให้กล่องเนื้อหาภายในจัดชิดฝั่งซ้ายเสมอ */
+        overflow: hidden; /* ล็อคขอบจอไม่ให้รูปภาพส่วนที่พลิกเกินล้นออกมา */
+      }
+
+      /* 🔥 ส่วนสำคัญ: สร้างแผ่นเลเยอร์แยก เพื่อพลิกเฉพาะรูปภาพพื้นหลังเท่านั้น */
+      .hero-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image:
+          linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+          url("./images/backgr01.png");
+        background-size: cover;
+        background-position: center;
+
+        /* สั่งพลิกกระจกกลับด้านเฉพาะรูปภาพจากซ้ายไปขวา */
+        transform: scaleX(-1);
+        z-index: 1; /* ส่งแผ่นภาพไปอยู่ชั้นล่างสุด */
+      }
+
+      /* ดันเนื้อหาหลักทั้งหมดให้อยู่เหนือรูปภาพและอยู่ในทิศทางปกติ */
+      .navbar,
+      .hero-content {
+        position: relative;
+        z-index: 2; /* ตัวหนังสือและปุ่มกดจะไม่กลับด้าน และล็อกตำแหน่งคงที่ */
+      }
+
+      .navbar {
+        position: absolute;
+        top: 1cqi;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 6%;
+      }
+
+      .logo img {
+        width: 130px; /* ใช้ไฟล์ icon01 เป็นโลโก้แบรนด์ */
+        height: auto;
+      }
+
+      .n-menu {
+        display: flex;
+        gap: 35px;
+      }
+
+      .n-menu a {
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+
+      .n-menu a:hover {
+        color: #ee6f34e0;
+      }
+
+      .hero-content {
+        color: #ffffff;
+        padding-left: 8%; /* ขยับระยะกล่องข้อความให้ห่างจากขอบจอฝั่งซ้ายอย่างสวยงาม */
+        max-width: 650px;
+      }
+
+      .hero-content .sub-title {
+        color: #d4a373;
+        font-size: 18px;
+        margin-bottom: 10px;
+        font-weight: 500;
+      }
+
+      .hero-content .main-title {
+        font-family: "Sansita Swashed", cursive;
+        font-size: 68px;
+        line-height: 1.1;
+        margin-bottom: 30px;
+      }
+
+      .hero-buttons {
+        display: flex;
+        align-items: center;
+        gap: 25px;
+      }
+
+      .btn-learn-more {
+        color: #ffffff;
+        font-weight: 500;
+        border-bottom: 2px solid transparent;
+        padding-bottom: 2px;
+      }
+      .btn-learn-more:hover {
+        border-color: #ffffff;
+      }
+
+      /* ==========================================================================
+       3. TOP PRODUCTS SECTION (สินค้าขายดีการ์ดดำหินแกรนิต)
+       ========================================================================== */
+      .top-products {
+        padding: 80px 0;
+        background-color: #ffffff;
+      }
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+      }
+      .product-card {
+        /* ใช้รูป backgr04 ทำเป็นพื้นหลังสีดำของตัวการ์ด */
+        background-image:
+          linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+          url("./images/backgr02.png");
+        background-color: #1c1c1c;
+        background-size: cover;
+        border-radius: 8px;
+        padding: 25px;
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+      .product-img {
+        width: 80%;
+        height: 180px;
+        object-fit: contain;
+        margin-bottom: 20px;
+      }
+      .product-info-row {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+      .product-price {
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .info-icon {
+        color: #aaaaaa;
+        font-size: 18px;
+        cursor: pointer;
+      }
+      .product-footer {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .product-name {
+        font-size: 15px;
+        text-align: left;
+        max-width: 60%;
+        line-height: 1.3;
+      }
+      .btn-add {
+        background-color: #b81e03e0;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .btn-add:hover {
+        background-color: #a06d3b;
+      }
+
+      /* ==========================================================================
+       4. PROMOTION BANNER (ส่วนป้ายลด 20%)
+       ========================================================================== */
+      .promo-banner {
+        /* ดึงรูปภาพขนมเค้กและพื้นหลังไม้สว่าง image05 มาใช้ */
+        background-image: url("./images/backgr05.png");
+        background-size: cover;
+        background-position: center;
+        padding: 100px 0;
+        text-align: center;
+      }
+      .promo-content {
+        max-width: 500px;
+        margin: 0 auto;
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.85
+        ); /* ใส่กล่องขาวจางๆ เพื่อให้อ่านตัวหนังสือชัดเจน */
+        padding: 40px;
+        border-radius: 8px;
+      }
+      .promo-title {
+        font-family: "Sansita Swashed", cursive;
+        font-size: 40px;
+        color: #6f421b;
+        margin-bottom: 15px;
+      }
+      .promo-text {
+        color: #555555;
+        font-size: 15px;
+        line-height: 1.6;
+        margin-bottom: 25px;
+      }
+
+      /* ==========================================================================
+       5. EXPLORE MORE SECTION (หมวดหมู่แกลเลอรีเค้กแสนอร่อย)
+       ========================================================================== */
+      .explore-section {
+        padding: 80px 0;
+      }
+      .category-tabs {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-bottom: 40px;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 15px;
+      }
+      .tab-item {
+        font-weight: 500;
+        color: #777777;
+        cursor: pointer;
+        padding-bottom: 10px;
+        position: relative;
+      }
+      .tab-item.active {
+        color: #1a1a1a;
+        font-weight: 600;
+      }
+      .tab-item.active::after {
+        content: "";
+        position: absolute;
+        bottom: -16px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background-color: #8b5a2b;
+      }
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .gallery-item img {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+        border-radius: 6px;
+        display: block;
+      }
+
+      /* ==========================================================================
+       6. ABOUT US SECTION (แถบคาดประวัติร้านค้า)
+       ========================================================================== */
+      .about-banner {
+        /* นำรูปภาพช็อกโกแลตและเมล็ดกาแฟโทนเข้ม image005 มาจัดพื้นหลัง */
+        background-image:
+          linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+          url("./images/backgr03.png");
+        background-size: cover;
+        background-position: center;
+        padding: 100px 0;
+        color: #ffffff;
+        text-align: center;
+      }
+      .about-content {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .about-title {
+        font-family: "Sansita Swashed", cursive;
+        font-size: 38px;
+        margin-bottom: 20px;
+      }
+      .about-text {
+        font-size: 15px;
+        line-height: 1.6;
+        margin-bottom: 30px;
+        color: #e5e5e5;
+      }
+
+      /* ==========================================================================
+       7. FEATURED TREATS SECTION (ส่วนโชว์เมนูพิเศษด้านล่าง)
+       ========================================================================== */
+      .featured-section {
+        padding: 80px 0;
+      }
+      .featured-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+      }
+      .featured-card {
+        text-align: center;
+        /* 💡 เพิ่มการจัดตำแหน่งกล่องลูกภายในให้อยู่ตรงกลาง */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .featured-card img {
+        width: 100%;
+        max-width: 100%; /* ล็อคความกว้างสูงสุดไม่ให้ล้นขอบการ์ด */
+        height: 240px;
+        /* 💡 เปลี่ยนมาใช้ contain หรือตั้งค่าจุดศูนย์กลางเพื่อดึงรูปให้อยู่ตรงกลางแบคกราวด์ */
+        object-fit: cover;
+        object-position: center; /* ดึงเนื้อหาของรูปภาพให้อยู่ตรงกลางกรอบเสมอ */
+        border-radius: 8px;
+        margin-bottom: 15px;
+        display: block;
+      }
+      .featured-meta {
+        width: 100%; /* บังคับให้แถวข้อความขยายเต็มความกว้างของการ์ด */
+        display: flex;
+        justify-content: space-between;
+        padding: 0 10px;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      /* ==========================================================================
+       8. FOOTER SECTION (ส่วนท้ายของเว็บไซต์)
+       ========================================================================== */
+      footer {
+        background-image:
+          linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+          url("./images/backgr04.png");
+        background-color: #9b8787;
+        color: #d4a373;
+        padding: 60px 0 30px 0;
+        font-size: 14px;
+      }
+      .footer-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #292929;
+        padding-bottom: 40px;
+        margin-bottom: 40px;
+      }
+      .footer-top .logo img {
+        width: 150px;
+      }
+      .footer-socials {
+        display: flex;
+        gap: 20px;
+        font-size: 20px;
+        align-items: center;
+      }
+      .footer-socials a {
+        color: #d4a373;
+        transition: color 0.3s;
+      }
+      .footer-socials a:hover {
+        color: #ffffff;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr 1.5fr;
+        gap: 50px;
+      }
+      .footer-col h4 {
+        color: #d4a373;
+        font-size: 18px;
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+      .footer-col p,
+      .footer-col li {
+        color: #b5b5b5;
+        line-height: 1.8;
+        margin-bottom: 10px;
+      }
+      .footer-col ul {
+        list-style: none;
+      }
+      .footer-col ul li a:hover {
+        color: #ffffff;
+      }
+      .news-item {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+      .news-item img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+      .news-details span {
+        font-size: 11px;
+        color: #777777;
+        display: block;
+      }
+      .news-details p {
+        color: #ffffff;
+        margin: 0;
+        font-size: 13px;
+      }
+      .footer-bottom {
+        text-align: center;
+        color: #555555;
+        margin-top: 40px;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+
   <body>
-    <!-- ส่วน mian -->
-    <div class="main">
-      <!-- sec-left -->
-      <div class="sec-left">
-        <span class="title">My Web Design by</span>
-        <span class="title">HTML+CSS+TailwindCSS</span>
-        <p>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quod,
-          fugiat! Facere ducimus laboriosam accusamus natus. Officia recusandae
-          iure quis est!
-        </p>
-        <button>Follow Me</button>
-        <div class="pic-1-2">
-          <a href="./page01.html">
-            <img src="./images/pic1.png" alt="pic1" />
-          </a>
-          <a href="./page02.html">
-            <img src="./images/pic2.png" alt="pic2" />
-          </a>
+    <div class="container">
+      <div class="background">
+        <!-- บอลลูนตะกร้าสินค้าลอยตัวขวาล่าง -->
+        <div class="cart-status">
+          <i class="fa-solid fa-basket-shopping"></i> ตะกร้าสินค้า:
+          <span id="cart-count">0</span> ชิ้น
         </div>
       </div>
 
-      <!-- sec-center -->
-      <div class="sec-center">
-        <a href="./page03.html">
-          <img src="./images/pic3.png" alt="pic3" />
-        </a>
-      </div>
+      <!-- 1. HERO BANNER SECTION -->
+      <header class="hero-section">
+        <nav class="navbar">
+          <a href="#" class="logo">
+            <img src="./images/icon01.png" alt="Keithston Logo" />
+          </a>
+          <div class="n-menu">
+            <a href="#">Home</a>
+            <a href="#">Blog</a>
+            <a href="#">Contact Us</a>
+            <a href="#">Services</a>
+          </div>
+        </nav>
+        <div class="hero-content">
+          <p class="sub-title">Delicious Cafe</p>
+          <h1 class="main-title">Sweet Treats,<br />Perfect Eats</h1>
+          <div class="hero-buttons">
+            <button class="btn-primary">Shop Now</button>
+            <a href="#" class="btn-learn-more">Learn More</a>
+          </div>
+        </div>
+      </header>
 
-      <!-- sec-right -->
-      <div class="sec-right">
-        <a href="./page04.html">
-          <img src="./images/pic4.png" alt="pic4" />
-        </a>
-      </div>
-    </div>
+      <!-- 2. TOP PRODUCTS SECTION -->
+      <section class="top-products">
+        <div class="container">
+          <h2 class="section-title">Top Products</h2>
+          <div class="products-grid">
+            <!-- การ์ดชิ้นที่ 1 -->
+            <div class="product-card">
+              <img
+                src="./images/bread01.png"
+                alt="bread 1"
+                class="product-img"
+              />
+              <div class="product-info-row">
+                <span class="product-price">40 Baht</span>
+                <i class="fa-regular fa-circle-info info-icon"></i>
+              </div>
+              <div class="product-footer">
+                <p class="product-name">Butter Grid Lattice</p>
+                <button
+                  class="btn-add"
+                  onclick="addToCart('Butter Grid Lattice')"
+                >
+                  Add
+                </button>
+              </div>
+            </div>
 
-    <!-- ส่วน footer -->
-    <div class="footer">
-      <span>Created by Aukkapon Odjai</span>
-      <span>Copyrignt © 2526 WoW WoW WoW</span>
+            <!-- การ์ดชิ้นที่ 2 -->
+            <div class="product-card">
+              <img
+                src="./images/bread02.png"
+                alt="Bread 2"
+                class="product-img"
+              />
+              <div class="product-info-row">
+                <span class="product-price">45 Baht</span>
+                <i class="fa-regular fa-circle-info info-icon"></i>
+              </div>
+              <div class="product-footer">
+                <p class="product-name">Berry Danishes</p>
+                <button class="btn-add" onclick="addToCart('Berry Danishes')">
+                  Add
+                </button>
+              </div>
+            </div>
+
+            <!-- การ์ดชิ้นที่ 3 -->
+            <div class="product-card">
+              <img
+                src="./images/bread03.png"
+                alt="Bread 3"
+                class="product-img"
+              />
+              <div class="product-info-row">
+                <span class="product-price">50 Baht</span>
+                <i class="fa-regular fa-circle-info info-icon"></i>
+              </div>
+              <div class="product-footer">
+                <p class="product-name">French Baguette</p>
+                <button class="btn-add" onclick="addToCart('French Baguette')">
+                  Add
+                </button>
+              </div>
+            </div>
+
+            <!-- การ์ดชิ้นที่ 4 -->
+            <div class="product-card">
+              <img
+                src="./images/bread04.png"
+                alt="Bread 4"
+                class="product-img"
+              />
+              <div class="product-info-row">
+                <span class="product-price">60 Baht</span>
+                <i class="fa-regular fa-circle-info info-icon"></i>
+              </div>
+              <div class="product-footer">
+                <p class="product-name">Sourdough Loaf</p>
+                <button class="btn-add" onclick="addToCart('Sourdough Loaf')">
+                  Add
+                </button>
+              </div>
+            </div>
+
+            <!-- การ์ดชิ้นที่ 5 -->
+            <div class="product-card">
+              <img
+                src="./images/bread05.png"
+                alt="Bread 5"
+                class="product-img"
+              />
+              <div class="product-info-row">
+                <span class="product-price">35 Baht</span>
+                <i class="fa-regular fa-circle-info info-icon"></i>
+              </div>
+              <div class="product-footer">
+                <p class="product-name">Sweet Butter Bun</p>
+                <button class="btn-add" onclick="addToCart('Sweet Butter Bun')">
+                  Add
+                </button>
+              </div>
+            </div>
+
+            <!-- การ์ดชิ้นที่ 6 -->
+            <div class="product-card">
+              <img
+                src="./images/bread06.png"
+                alt="Bread 6"
+                class="product-img"
+              />
+              <div class="product-info-row">
+                <span class="product-price">30 Baht</span>
+                <i class="fa-regular fa-circle-info info-icon"></i>
+              </div>
+              <div class="product-footer">
+                <p class="product-name">Kaiser Roll Sesame</p>
+                <button
+                  class="btn-add"
+                  onclick="addToCart('Kaiser Roll Sesame')"
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. PROMOTION BANNER -->
+      <section class="promo-banner">
+        <div class="promo-content">
+          <h2 class="promo-title">20% Off Your<br />First Order</h2>
+          <p class="promo-text">
+            สมัครสมาชิกกับร้านเบเกอรี่วันนี้
+            รับส่วนลดทันทีสำหรับการสั่งซื้อเค้กและขนมปังโฮมเมดครั้งแรกของคุณ
+          </p>
+          <button class="btn-primary">Learn More</button>
+        </div>
+      </section>
+
+      <!-- 4. EXPLORE MORE SECTION -->
+      <section class="explore-section">
+        <div class="container">
+          <h2 class="section-title">Explore More</h2>
+          <div class="category-tabs">
+            <span class="tab-item active">Cake</span>
+            <span class="tab-item">Muffins</span>
+            <span class="tab-item">Croissant</span>
+            <span class="tab-item">Bread</span>
+            <span class="tab-item">Tart</span>
+            <span class="tab-item">Favorite</span>
+          </div>
+          <div class="gallery-grid">
+            <div class="gallery-item">
+              <img src="./images/image001.png" alt="Cake 1" />
+            </div>
+            <div class="gallery-item">
+              <img src="./images/image002.png" alt="Cake 2" />
+            </div>
+            <div class="gallery-item">
+              <img src="./images/image003.png" alt="Cake 3" />
+            </div>
+            <div class="gallery-item">
+              <img src="./images/image004.png" alt="Cake 4" />
+            </div>
+            <div class="gallery-item">
+              <img src="./images/image005.png" alt="Cake 5" />
+            </div>
+            <div class="gallery-item">
+              <img src="./images/image006.png" alt="Cake 6" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. ABOUT US SECTION -->
+      <section class="about-banner">
+        <div class="about-content">
+          <h2 class="about-title">About us</h2>
+          <p class="about-text">
+            จากความหลงใหลในศิลปะการอบขนมปัง Keithston
+            เลือกสรรวัตถุดิบเกรดพรีเมียมเพื่อส่งมอบรสชาติที่อบอุ่นและสมบูรณ์แบบในทุก
+            ๆ วัน
+          </p>
+          <button class="btn-primary">Read More</button>
+        </div>
+      </section>
+
+      <!-- 6. FEATURED TREATS SECTION -->
+      <section class="featured-section">
+        <div class="container">
+          <h2 class="section-title">Featured Treats</h2>
+          <div class="featured-grid">
+            <div class="featured-card">
+              <img src="./images/image007.png" alt="Muffin" />
+              <div class="featured-meta">
+                <span>Chocolate Muffin</span>
+                <span>55 Baht</span>
+              </div>
+            </div>
+            <div class="featured-card">
+              <img src="./images/image008.png" alt="Brownie" />
+              <div class="featured-meta">
+                <span>Chewy Brownies</span>
+                <span>60 Baht</span>
+              </div>
+            </div>
+            <div class="featured-card">
+              <img src="./images/image009.png" alt="Donut" />
+              <div class="featured-meta">
+                <span>Glazed Donuts</span>
+                <span>35 Baht</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. FOOTER SECTION -->
+      <footer>
+        <div class="container">
+          <div class="footer-top">
+            <div class="logo">
+              <img src="./images/icon01.png" alt="Keithston Logo" />
+            </div>
+            <div class="footer-socials">
+              <span>Follow us</span>
+              <a href="#"><i class="bi bi-facebook"></i></a>
+              <a href="#"><i class="bi bi-pinterest"></i></a>
+              <a href="#"><i class="bi bi-whatsapp"></i></a>
+              <a href="#"><i class="bi bi-instagram"></i></a>
+
+            </div>
+          </div>
+          
+          <div class="footer-grid">
+            <div class="footer-col">
+              <h4>About Us</h4>
+              <p>(02) 807-4500</p>
+              <p>info@sau.ac.th</p>
+              <p>19/1 Phetkasem Road<br />Nongkham Bangkok 10160</p>
+            </div>
+            <div class="footer-col">
+              <h4>Explore</h4>
+              <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Contact us</a></li>
+                <li><a href="#">Services</a></li>
+              </ul>
+            </div>
+            <div class="footer-col">
+              <h4>Recent News</h4>
+              <div class="news-item">
+                <img src="./images/image010.png" alt="News 1" />
+                <div class="news-details">
+                  <span>June 14, 2026</span>
+                  <p>เปิดตัวเมนูช็อกโกแลตฟัดจ์บราวนี่สูตรเข้มข้น</p>
+                </div>
+              </div>
+              <div class="news-item">
+                <img src="./images/image011.png" alt="News 2" />
+                <div class="news-details">
+                  <span>June 18, 2026</span>
+                  <p>ร่วมฉลองเปิดสาขาใหม่ด้วยโปรโมชั่นขนมปังซื้อ 1 แถม 1</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ส่วนแสดงลิขสิทธิ์ด้านล่างสุดของหน้าเว็บ -->
+          <div class="footer-bottom">
+            <p>&copy; 2026 Keithston Bake House. All rights reserved</p>
+          </div>
+        </div>
+      </footer>
+
+      <!-- ระบบ JavaScript สำหรับนับยอดตะกร้าสินค้าเมื่อกดปุ่ม Add -->
+      <script>
+        let count = 0;
+        function addToCart(productName) {
+          count++;
+          document.getElementById("cart-count").innerText = count;
+          alert("เพิ่ม " + productName + " ลงในตะกร้าเรียบร้อยแล้ว!");
+        }
+      </script>
     </div>
   </body>
 </html>
